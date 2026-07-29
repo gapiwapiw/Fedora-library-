@@ -28,7 +28,7 @@ function FedoraLibrary.CreateWindow(titleText)
 	Window.Tabs = {}
 	
 	local ScreenGui = Instance.new("ScreenGui")
-	ScreenGui.Name = "FedoraHub_" .. math.random(1000, 9999)
+	ScreenGui.Name = "FedoraHub"
 	ScreenGui.ResetOnSpawn = false
 	
 	pcall(function()
@@ -40,19 +40,19 @@ function FedoraLibrary.CreateWindow(titleText)
 	
 	local MainFrame = Instance.new("Frame")
 	MainFrame.Name = "MainFrame"
-	MainFrame.Size = UDim2.new(0, 520, 0, 360)
-	MainFrame.Position = UDim2.new(0.5, -260, 0.5, -180)
-	MainFrame.BackgroundColor3 = Color3.fromRGB(12, 12, 12)
+	MainFrame.Size = UDim2.new(0, 500, 0, 380)
+	MainFrame.Position = UDim2.new(0.5, -250, 0.5, -190)
+	MainFrame.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
 	MainFrame.BorderSizePixel = 0
 	MainFrame.ClipsDescendants = true
 	MainFrame.Parent = ScreenGui
 	ApplyCorner(MainFrame, 10)
-	ApplyStroke(MainFrame, Color3.fromRGB(30, 30, 30), 1)
+	ApplyStroke(MainFrame, Color3.fromRGB(28, 28, 28), 1)
 
 	local TopBar = Instance.new("Frame")
 	TopBar.Name = "TopBar"
-	TopBar.Size = UDim2.new(1, 0, 0, 40)
-	TopBar.BackgroundColor3 = Color3.fromRGB(16, 16, 16)
+	TopBar.Size = UDim2.new(1, 0, 0, 38)
+	TopBar.BackgroundColor3 = Color3.fromRGB(14, 14, 14)
 	TopBar.BorderSizePixel = 0
 	TopBar.Parent = MainFrame
 	
@@ -61,9 +61,9 @@ function FedoraLibrary.CreateWindow(titleText)
 	TitleLabel.Size = UDim2.new(1, -20, 1, 0)
 	TitleLabel.Position = UDim2.new(0, 15, 0, 0)
 	TitleLabel.BackgroundTransparency = 1
-	TitleLabel.Text = titleText or "Fedora Hub"
-	TitleLabel.TextColor3 = Color3.fromRGB(240, 240, 240)
-	TitleLabel.TextSize = 15
+	TitleLabel.Text = titleText or "Fedora hub."
+	TitleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+	TitleLabel.TextSize = 14
 	TitleLabel.Font = Enum.Font.GothamBold
 	TitleLabel.TextXAlignment = Enum.TextXAlignment.Left
 	TitleLabel.Parent = TopBar
@@ -97,11 +97,11 @@ function FedoraLibrary.CreateWindow(titleText)
 
 	local TabBar = Instance.new("Frame")
 	TabBar.Name = "TabBar"
-	TabBar.Size = UDim2.new(1, -20, 0, 32)
-	TabBar.Position = UDim2.new(0, 10, 0, 48)
-	TabBar.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
+	TabBar.Size = UDim2.new(1, -24, 0, 36)
+	TabBar.Position = UDim2.new(0, 12, 0, 48)
+	TabBar.BackgroundColor3 = Color3.fromRGB(16, 16, 16)
 	TabBar.Parent = MainFrame
-	ApplyCorner(TabBar, 6)
+	ApplyCorner(TabBar, 8)
 
 	local TabListLayout = Instance.new("UIListLayout")
 	TabListLayout.FillDirection = Enum.FillDirection.Horizontal
@@ -111,15 +111,15 @@ function FedoraLibrary.CreateWindow(titleText)
 
 	local ContentContainer = Instance.new("Frame")
 	ContentContainer.Name = "ContentContainer"
-	ContentContainer.Size = UDim2.new(1, -20, 1, -95)
-	ContentContainer.Position = UDim2.new(0, 10, 0, 85)
+	ContentContainer.Size = UDim2.new(1, -24, 1, -100)
+	ContentContainer.Position = UDim2.new(0, 12, 0, 90)
 	ContentContainer.BackgroundTransparency = 1
 	ContentContainer.Parent = MainFrame
 
 	local NotificationContainer = Instance.new("Frame")
 	NotificationContainer.Name = "NotificationContainer"
-	NotificationContainer.Size = UDim2.new(0, 200, 1, -20)
-	NotificationContainer.Position = UDim2.new(1, -210, 0, 10)
+	NotificationContainer.Size = UDim2.new(0, 220, 1, -20)
+	NotificationContainer.Position = UDim2.new(1, -230, 0, 10)
 	NotificationContainer.BackgroundTransparency = 1
 	NotificationContainer.Parent = ScreenGui
 
@@ -164,12 +164,12 @@ function FedoraLibrary.CreateWindow(titleText)
 
 	function Window:SendNotification(textData)
 		local NotifFrame = Instance.new("Frame")
-		NotifFrame.Size = UDim2.new(1, 0, 0, 36)
-		NotifFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+		NotifFrame.Size = UDim2.new(1, 0, 0, 38)
+		NotifFrame.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
 		NotifFrame.BackgroundTransparency = 1
 		NotifFrame.Parent = NotificationContainer
 		ApplyCorner(NotifFrame, 6)
-		ApplyStroke(NotifFrame, Color3.fromRGB(40, 40, 40), 1)
+		ApplyStroke(NotifFrame, Color3.fromRGB(35, 35, 35), 1)
 
 		local NotifLabel = Instance.new("TextLabel")
 		NotifLabel.Size = UDim2.new(1, -20, 1, 0)
@@ -201,16 +201,16 @@ function FedoraLibrary.CreateWindow(titleText)
 		PopupOverlay.Parent = MainFrame
 
 		local PopupFrame = Instance.new("Frame")
-		PopupFrame.Size = UDim2.new(0, 280, 0, 140)
-		PopupFrame.Position = UDim2.new(0.5, -140, 0.5, -70)
-		PopupFrame.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
+		PopupFrame.Size = UDim2.new(0, 300, 0, 150)
+		PopupFrame.Position = UDim2.new(0.5, -150, 0.5, -75)
+		PopupFrame.BackgroundColor3 = Color3.fromRGB(16, 16, 16)
 		PopupFrame.Parent = PopupOverlay
 		ApplyCorner(PopupFrame, 8)
-		ApplyStroke(PopupFrame, Color3.fromRGB(45, 45, 45), 1)
+		ApplyStroke(PopupFrame, Color3.fromRGB(40, 40, 40), 1)
 
 		local PopupLabel = Instance.new("TextLabel")
-		PopupLabel.Size = UDim2.new(1, -20, 1, -50)
-		PopupLabel.Position = UDim2.new(0, 10, 0, 10)
+		PopupLabel.Size = UDim2.new(1, -24, 1, -50)
+		PopupLabel.Position = UDim2.new(0, 12, 0, 12)
 		PopupLabel.BackgroundTransparency = 1
 		PopupLabel.TextColor3 = Color3.fromRGB(240, 240, 240)
 		PopupLabel.TextSize = textSize or 12
@@ -221,17 +221,17 @@ function FedoraLibrary.CreateWindow(titleText)
 		RegisterTextLabel(PopupLabel, textData)
 
 		local CloseBtn = Instance.new("TextButton")
-		CloseBtn.Size = UDim2.new(0, 80, 0, 26)
-		CloseBtn.Position = UDim2.new(0.5, -40, 1, -34)
-		CloseBtn.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+		CloseBtn.Size = UDim2.new(0, 90, 0, 28)
+		CloseBtn.Position = UDim2.new(0.5, -45, 1, -36)
+		CloseBtn.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
 		CloseBtn.Text = "OK"
 		CloseBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
 		CloseBtn.Font = Enum.Font.GothamBold
 		CloseBtn.TextSize = 11
 		CloseBtn.Parent = PopupFrame
-		ApplyCorner(CloseBtn, 4)
+		ApplyCorner(CloseBtn, 6)
 
-		TweenService:Create(PopupOverlay, TweenInfo.new(0.2), {BackgroundTransparency = 0.5}):Play()
+		TweenService:Create(PopupOverlay, TweenInfo.new(0.2), {BackgroundTransparency = 0.4}):Play()
 
 		CloseBtn.MouseButton1Click:Connect(function()
 			local fade = TweenService:Create(PopupOverlay, TweenInfo.new(0.2), {BackgroundTransparency = 1})
@@ -250,14 +250,14 @@ function FedoraLibrary.CreateWindow(titleText)
 
 		local TabButton = Instance.new("TextButton")
 		TabButton.Name = "TabButton_" .. TabIndex
-		TabButton.Size = UDim2.new(0.2, -3, 1, 0)
-		TabButton.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+		TabButton.Size = UDim2.new(0.2, -4, 1, 0)
+		TabButton.BackgroundColor3 = Color3.fromRGB(22, 22, 22)
 		TabButton.BackgroundTransparency = TabIndex == 1 and 0 or 1
-		TabButton.TextColor3 = TabIndex == 1 and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(140, 140, 140)
+		TabButton.TextColor3 = TabIndex == 1 and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(130, 130, 130)
 		TabButton.Font = Enum.Font.GothamBold
 		TabButton.TextSize = 12
 		TabButton.Parent = TabBar
-		ApplyCorner(TabButton, 4)
+		ApplyCorner(TabButton, 6)
 
 		RegisterTextLabel(TabButton, tabNameData)
 
@@ -267,7 +267,7 @@ function FedoraLibrary.CreateWindow(titleText)
 		TabPage.BackgroundTransparency = 1
 		TabPage.BorderSizePixel = 0
 		TabPage.ScrollBarThickness = 2
-		TabPage.ScrollBarImageColor3 = Color3.fromRGB(50, 50, 50)
+		TabPage.ScrollBarImageColor3 = Color3.fromRGB(45, 45, 45)
 		TabPage.Visible = TabIndex == 1
 		TabPage.Parent = ContentContainer
 
@@ -283,7 +283,7 @@ function FedoraLibrary.CreateWindow(titleText)
 		TabButton.MouseButton1Click:Connect(function()
 			for _, t in ipairs(Window.Tabs) do
 				t.Button.BackgroundTransparency = 1
-				t.Button.TextColor3 = Color3.fromRGB(140, 140, 140)
+				t.Button.TextColor3 = Color3.fromRGB(130, 130, 130)
 				t.Page.Visible = false
 			end
 			TabButton.BackgroundTransparency = 0
@@ -293,13 +293,13 @@ function FedoraLibrary.CreateWindow(titleText)
 
 		function Tab:CreateButton(textData, callback)
 			local Btn = Instance.new("TextButton")
-			Btn.Size = UDim2.new(1, -6, 0, 32)
-			Btn.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+			Btn.Size = UDim2.new(1, -6, 0, 34)
+			Btn.BackgroundColor3 = Color3.fromRGB(16, 16, 16)
 			Btn.AutoButtonColor = false
 			Btn.Text = ""
 			Btn.Parent = TabPage
 			ApplyCorner(Btn, 6)
-			ApplyStroke(Btn, Color3.fromRGB(32, 32, 32), 1)
+			ApplyStroke(Btn, Color3.fromRGB(28, 28, 28), 1)
 
 			local BtnLabel = Instance.new("TextLabel")
 			BtnLabel.Size = UDim2.new(1, -20, 1, 0)
@@ -319,11 +319,11 @@ function FedoraLibrary.CreateWindow(titleText)
 
 		function Tab:CreateToggle(textData, defaultState, callback)
 			local Tgl = Instance.new("Frame")
-			Tgl.Size = UDim2.new(1, -6, 0, 32)
-			Tgl.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+			Tgl.Size = UDim2.new(1, -6, 0, 34)
+			Tgl.BackgroundColor3 = Color3.fromRGB(16, 16, 16)
 			Tgl.Parent = TabPage
 			ApplyCorner(Tgl, 6)
-			ApplyStroke(Tgl, Color3.fromRGB(32, 32, 32), 1)
+			ApplyStroke(Tgl, Color3.fromRGB(28, 28, 28), 1)
 
 			local TglLabel = Instance.new("TextLabel")
 			TglLabel.Size = UDim2.new(1, -50, 1, 0)
@@ -339,7 +339,7 @@ function FedoraLibrary.CreateWindow(titleText)
 			local Switch = Instance.new("Frame")
 			Switch.Size = UDim2.new(0, 32, 0, 16)
 			Switch.Position = UDim2.new(1, -42, 0.5, -8)
-			Switch.BackgroundColor3 = defaultState and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(40, 40, 40)
+			Switch.BackgroundColor3 = defaultState and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(35, 35, 35)
 			Switch.Parent = Tgl
 			ApplyCorner(Switch, 8)
 
@@ -354,7 +354,7 @@ function FedoraLibrary.CreateWindow(titleText)
 			ClickArea.MouseButton1Click:Connect(function()
 				State = not State
 				TweenService:Create(Switch, TweenInfo.new(0.15), {
-					BackgroundColor3 = State and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(40, 40, 40)
+					BackgroundColor3 = State and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(35, 35, 35)
 				}):Play()
 				if callback then callback(State) end
 			end)
@@ -362,15 +362,15 @@ function FedoraLibrary.CreateWindow(titleText)
 
 		function Tab:CreateDropdown(textData, options, callback)
 			local DropFrame = Instance.new("Frame")
-			DropFrame.Size = UDim2.new(1, -6, 0, 32)
-			DropFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+			DropFrame.Size = UDim2.new(1, -6, 0, 34)
+			DropFrame.BackgroundColor3 = Color3.fromRGB(16, 16, 16)
 			DropFrame.ClipsDescendants = true
 			DropFrame.Parent = TabPage
 			ApplyCorner(DropFrame, 6)
-			ApplyStroke(DropFrame, Color3.fromRGB(32, 32, 32), 1)
+			ApplyStroke(DropFrame, Color3.fromRGB(28, 28, 28), 1)
 
 			local DropLabel = Instance.new("TextLabel")
-			DropLabel.Size = UDim2.new(1, -30, 0, 32)
+			DropLabel.Size = UDim2.new(1, -30, 0, 34)
 			DropLabel.Position = UDim2.new(0, 10, 0, 0)
 			DropLabel.BackgroundTransparency = 1
 			DropLabel.TextColor3 = Color3.fromRGB(220, 220, 220)
@@ -381,27 +381,27 @@ function FedoraLibrary.CreateWindow(titleText)
 			RegisterTextLabel(DropLabel, textData)
 
 			local ToggleBtn = Instance.new("TextButton")
-			ToggleBtn.Size = UDim2.new(1, 0, 0, 32)
+			ToggleBtn.Size = UDim2.new(1, 0, 0, 34)
 			ToggleBtn.BackgroundTransparency = 1
 			ToggleBtn.Text = ""
 			ToggleBtn.Parent = DropFrame
 
 			local IsOpen = false
-			local ItemHeight = 24
-			local TotalHeight = 32 + (#options * ItemHeight) + 6
+			local ItemHeight = 26
+			local TotalHeight = 34 + (#options * ItemHeight) + 6
 
 			ToggleBtn.MouseButton1Click:Connect(function()
 				IsOpen = not IsOpen
 				TweenService:Create(DropFrame, TweenInfo.new(0.2), {
-					Size = UDim2.new(1, -6, 0, IsOpen and TotalHeight or 32)
+					Size = UDim2.new(1, -6, 0, IsOpen and TotalHeight or 34)
 				}):Play()
 			end)
 
 			for i, option in ipairs(options) do
 				local OptBtn = Instance.new("TextButton")
 				OptBtn.Size = UDim2.new(1, -12, 0, ItemHeight)
-				OptBtn.Position = UDim2.new(0, 6, 0, 32 + ((i - 1) * ItemHeight))
-				OptBtn.BackgroundColor3 = Color3.fromRGB(26, 26, 26)
+				OptBtn.Position = UDim2.new(0, 6, 0, 34 + ((i - 1) * ItemHeight))
+				OptBtn.BackgroundColor3 = Color3.fromRGB(22, 22, 22)
 				OptBtn.Text = tostring(option)
 				OptBtn.TextColor3 = Color3.fromRGB(180, 180, 180)
 				OptBtn.TextSize = 11
@@ -412,7 +412,7 @@ function FedoraLibrary.CreateWindow(titleText)
 				OptBtn.MouseButton1Click:Connect(function()
 					IsOpen = false
 					TweenService:Create(DropFrame, TweenInfo.new(0.2), {
-						Size = UDim2.new(1, -6, 0, 32)
+						Size = UDim2.new(1, -6, 0, 34)
 					}):Play()
 					if callback then callback(option) end
 				end)
