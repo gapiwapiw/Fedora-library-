@@ -184,6 +184,76 @@ function Library:ShowPopup(titleInput, bodyInput)
 
     return PopupFrame
 end
+local NotificationContainer = Instance.new("Frame")
+NotificationContainer.Name = "NotificationContainer"
+NotificationContainer.Size = UDim2.new(0, 260, 1, -20)
+NotificationContainer.Position = UDim2.new(1, -270, 0, 10)
+NotificationContainer.BackgroundTransparency = 1
+NotificationContainer.Parent = ScreenGui
+
+local NotifListLayout = Instance.new("UIListLayout")
+NotifListLayout.Parent = NotificationContainer
+NotifListLayout.VerticalAlignment = Enum.VerticalAlignment.Bottom
+NotifListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+NotifListLayout.Padding = UDim.new(0, 8)
+
+function Library:SendNotification(textInput)
+    local notifFrame = Instance.new("Frame")
+    notifFrame.Size = UDim2.new(1, 0, 0, 0)
+    notifFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+    notifFrame.ClipsDescendants = true
+    notifFrame.Parent = NotificationContainer
+
+    local notifCorner = Instance.new("UICorner")
+    notifCorner.CornerRadius = UDim.new(0, 10)
+    notifCorner.Parent = notifFrame
+
+    local notifStroke = Instance.new("UIStroke")
+    notifStroke.Color = Color3.fromRGB(255, 255, 255)
+    notifStroke.Transparency = 0.85
+    notifStroke.Thickness = 1
+    notifStroke.Parent = notifFrame
+
+    local notifText = Instance.new("TextLabel")
+    notifText.Size = UDim2.new(1, -20, 1, 0)
+    notifText.Position = UDim2.new(0, 10, 0, 0)
+    notifText.BackgroundTransparency = 1
+    notifText.TextColor3 = Color3.fromRGB(255, 255, 255)
+    notifText.Font = Enum.Font.GothamMedium
+    notifText.TextWrapped = true
+    notifText.Parent = notifFrame
+
+    registerText(notifText, "Text", textInput, 12)
+
+    local function applyLangStyle()
+        if Library.CurrentLang == "AR" then
+            notifText.TextSize = 18
+            notifText.TextXAlignment = Enum.TextXAlignment.Right
+        else
+            notifText.TextSize = 12
+            notifText.TextXAlignment = Enum.TextXAlignment.Left
+        end
+    end
+
+    applyLangStyle()
+    registerCustomText(applyLangStyle)
+
+    TweenService:Create(notifFrame, TweenInfo.new(0.3, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {
+        Size = UDim2.new(1, 0, 0, 48)
+    }):Play()
+
+    task.delay(3.5, function()
+        local closeTween = TweenService:Create(notifFrame, TweenInfo.new(0.3, Enum.EasingStyle.Quart, Enum.EasingDirection.In), {
+            Size = UDim2.new(1, 0, 0, 0)
+        })
+        closeTween:Play()
+        closeTween.Completed:Connect(function()
+            notifFrame:Destroy()
+        end)
+    end)
+
+    return notifFrame
+end
 
 function Library:SetLanguage(langKey)
     Library.CurrentLang = langKey
