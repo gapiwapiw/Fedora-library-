@@ -83,3 +83,9 @@ MainTab:CreateButton({
 end)
 
 ```
+
+
+# Library:SendNotification(textInput)
+
+```lua
+Library:SendNotification({EN = "PlayerName left the game!", AR = "اللاعب PlayerName خرج اللعبة"})
