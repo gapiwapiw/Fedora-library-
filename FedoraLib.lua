@@ -24,7 +24,7 @@ end
 
 local function fontSizeFor(base)
     if Library.CurrentLang == "AR" then
-        return base * 1.5
+        return (base * 1.5) - 1.5
     end
     return base
 end
@@ -317,6 +317,7 @@ function Library:CreateWindow(config)
     local tabButtons = {}
     local tabViews = {}
     local maxTabs = 5
+    local GAP = 10
 
     function Window:CreateTab(tabNameInput)
         local index = #tabViews + 1
@@ -373,12 +374,43 @@ function Library:CreateWindow(config)
 
         local Tab = {}
         Tab.View = view
-        Tab.ElementCount = 0
+        Tab.Elements = {}
 
-        local function nextY()
-            local y = Tab.ElementCount * 44
-            Tab.ElementCount = Tab.ElementCount + 1
-            return y
+        local function addElement(frame, height)
+            local y = 0
+            for _, e in ipairs(Tab.Elements) do
+                y = y + e.height + GAP
+            end
+            frame.Position = UDim2.new(0, 0, 0, y)
+            local entry = { frame = frame, height = height }
+            table.insert(Tab.Elements, entry)
+            return entry
+        end
+
+        local function repositionAfter(entry)
+            local idx = nil
+            for i, e in ipairs(Tab.Elements) do
+                if e == entry then
+                    idx = i
+                    break
+                end
+            end
+            if not idx then
+                return
+            end
+
+            local y = 0
+            for i = 1, idx do
+                y = y + Tab.Elements[i].height + GAP
+            end
+
+            for i = idx + 1, #Tab.Elements do
+                local e = Tab.Elements[i]
+                TweenService:Create(e.frame, TweenInfo.new(0.25, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {
+                    Position = UDim2.new(0, 0, 0, y)
+                }):Play()
+                y = y + e.height + GAP
+            end
         end
 
         function Tab:CreateToggle(toggleConfig)
@@ -394,9 +426,10 @@ function Library:CreateWindow(config)
 
             local ToggleContainer = Instance.new("Frame")
             ToggleContainer.Size = UDim2.new(1, 0, 0, 42)
-            ToggleContainer.Position = UDim2.new(0, 0, 0, nextY())
             ToggleContainer.BackgroundColor3 = Color3.fromRGB(12, 12, 12)
             ToggleContainer.Parent = view
+
+            addElement(ToggleContainer, 42)
 
             local TogCorner = Instance.new("UICorner")
             TogCorner.CornerRadius = UDim.new(0, 8)
@@ -497,10 +530,11 @@ function Library:CreateWindow(config)
 
             local DropdownContainer = Instance.new("Frame")
             DropdownContainer.Size = UDim2.new(1, 0, 0, 38)
-            DropdownContainer.Position = UDim2.new(0, 0, 0, nextY())
             DropdownContainer.BackgroundColor3 = Color3.fromRGB(12, 12, 12)
             DropdownContainer.ClipsDescendants = true
             DropdownContainer.Parent = view
+
+            local elementEntry = addElement(DropdownContainer, 38)
 
             local DropCorner = Instance.new("UICorner")
             DropCorner.CornerRadius = UDim.new(0, 8)
@@ -572,6 +606,9 @@ function Library:CreateWindow(config)
                 }):Play()
 
                 DropArrow.Text = open and "▲" or "▼"
+
+                elementEntry.height = targetHeight
+                repositionAfter(elementEntry)
             end
 
             local function selectOption(optInput)
@@ -651,12 +688,13 @@ function Library:CreateWindow(config)
 
             local Btn = Instance.new("TextButton")
             Btn.Size = UDim2.new(1, 0, 0, 38)
-            Btn.Position = UDim2.new(0, 0, 0, nextY())
             Btn.BackgroundColor3 = Color3.fromRGB(12, 12, 12)
             Btn.TextColor3 = Color3.fromRGB(240, 240, 240)
             Btn.Font = Enum.Font.GothamMedium
             Btn.Parent = view
             registerText(Btn, "Text", nameInput, 12)
+
+            addElement(Btn, 38)
 
             local BtnCorner = Instance.new("UICorner")
             BtnCorner.CornerRadius = UDim.new(0, 8)
@@ -681,7 +719,6 @@ function Library:CreateWindow(config)
 
             local Lbl = Instance.new("TextLabel")
             Lbl.Size = UDim2.new(1, 0, 0, 38)
-            Lbl.Position = UDim2.new(0, 0, 0, nextY())
             Lbl.BackgroundTransparency = 1
             Lbl.TextColor3 = Color3.fromRGB(255, 255, 255)
             Lbl.Font = Enum.Font.GothamBold
@@ -690,6 +727,8 @@ function Library:CreateWindow(config)
             Lbl.TextYAlignment = Enum.TextYAlignment.Center
             Lbl.Parent = view
             registerText(Lbl, "Text", textInput, 14)
+
+            addElement(Lbl, 38)
 
             return Lbl
         end
