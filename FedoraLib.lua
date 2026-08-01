@@ -750,7 +750,181 @@ function Library:CreateWindow(config)
                 end
             }
         end
+function Tab:CreateSlider(sliderConfig)
+            sliderConfig = sliderConfig or {}
+            local flagName = sliderConfig.Flag or sliderConfig.Name or ("Slider" .. tostring(math.random(100000, 999999)))
+            local nameInput = sliderConfig.Name or {EN = "Slider", AR = "منزلق"}
+            local minVal = sliderConfig.Min or 0
+            local maxVal = sliderConfig.Max or 100
+            local defaultVal = sliderConfig.Default or minVal
+            local callback = sliderConfig.Callback or function() end
 
+            Library.Flags[flagName] = defaultVal
+
+            local SliderContainer = Instance.new("Frame")
+            SliderContainer.Size = UDim2.new(1, 0, 0, 54)
+            SliderContainer.BackgroundColor3 = Color3.fromRGB(12, 12, 12)
+            SliderContainer.Active = true
+            SliderContainer.Parent = view
+
+            addElement(SliderContainer, 54)
+
+            local SliderCorner = Instance.new("UICorner")
+            SliderCorner.CornerRadius = UDim.new(0, 8)
+            SliderCorner.Parent = SliderContainer
+
+            local SliderStroke = Instance.new("UIStroke")
+            SliderStroke.Color = Color3.fromRGB(255, 255, 255)
+            SliderStroke.Transparency = 0.9
+            SliderStroke.Thickness = 1
+            SliderStroke.Parent = SliderContainer
+
+            local SliderLabel = Instance.new("TextLabel")
+            SliderLabel.Size = UDim2.new(1, -70, 0, 20)
+            SliderLabel.Position = UDim2.new(0, 12, 0, 6)
+            SliderLabel.BackgroundTransparency = 1
+            SliderLabel.TextColor3 = Color3.fromRGB(240, 240, 240)
+            SliderLabel.Font = Enum.Font.GothamMedium
+            SliderLabel.TextXAlignment = Enum.TextXAlignment.Left
+            SliderLabel.Parent = SliderContainer
+
+            registerCustomText(function()
+                SliderLabel.Text = resolveText(nameInput)
+                SliderLabel.TextSize = fontSizeFor(12)
+            end)
+
+            local ValueBubble = Instance.new("Frame")
+            ValueBubble.Size = UDim2.new(0, 44, 0, 20)
+            ValueBubble.Position = UDim2.new(1, -56, 0, 6)
+            ValueBubble.BackgroundColor3 = Color3.fromRGB(22, 22, 22)
+            ValueBubble.Parent = SliderContainer
+
+            local BubbleCorner = Instance.new("UICorner")
+            BubbleCorner.CornerRadius = UDim.new(0, 6)
+            BubbleCorner.Parent = ValueBubble
+
+            local BubbleStroke = Instance.new("UIStroke")
+            BubbleStroke.Color = Color3.fromRGB(255, 255, 255)
+            BubbleStroke.Transparency = 0.88
+            BubbleStroke.Thickness = 1
+            BubbleStroke.Parent = ValueBubble
+
+            local ValueLabel = Instance.new("TextLabel")
+            ValueLabel.Size = UDim2.new(1, 0, 1, 0)
+            ValueLabel.BackgroundTransparency = 1
+            ValueLabel.Text = tostring(defaultVal)
+            ValueLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+            ValueLabel.Font = Enum.Font.GothamBold
+            ValueLabel.TextSize = 11
+            ValueLabel.Parent = ValueBubble
+
+            local HitArea = Instance.new("TextButton")
+            HitArea.Size = UDim2.new(1, -24, 0, 24)
+            HitArea.Position = UDim2.new(0, 12, 0, 26)
+            HitArea.BackgroundTransparency = 1
+            HitArea.Text = ""
+            HitArea.AutoButtonColor = false
+            HitArea.Active = true
+            HitArea.Parent = SliderContainer
+
+            local Track = Instance.new("Frame")
+            Track.Size = UDim2.new(1, 0, 0, 4)
+            Track.Position = UDim2.new(0, 0, 0.5, -2)
+            Track.BackgroundColor3 = Color3.fromRGB(32, 32, 32)
+            Track.Parent = HitArea
+
+            local TrackCorner = Instance.new("UICorner")
+            TrackCorner.CornerRadius = UDim.new(1, 0)
+            TrackCorner.Parent = Track
+
+            local Fill = Instance.new("Frame")
+            local startPercent = (defaultVal - minVal) / (maxVal - minVal)
+            Fill.Size = UDim2.new(startPercent, 0, 1, 0)
+            Fill.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            Fill.Parent = Track
+
+            local FillCorner = Instance.new("UICorner")
+            FillCorner.CornerRadius = UDim.new(1, 0)
+            FillCorner.Parent = Fill
+
+            local FillGradient = Instance.new("UIGradient")
+            FillGradient.Color = ColorSequence.new(
+                Color3.fromRGB(210, 210, 210),
+                Color3.fromRGB(255, 255, 255)
+            )
+            FillGradient.Rotation = 0
+            FillGradient.Parent = Fill
+
+            local Knob = Instance.new("Frame")
+            Knob.Size = UDim2.new(0, 16, 0, 16)
+            Knob.AnchorPoint = Vector2.new(0.5, 0.5)
+            Knob.Position = UDim2.new(startPercent, 0, 0.5, 0)
+            Knob.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            Knob.ZIndex = 2
+            Knob.Parent = Track
+
+            local KnobCorner = Instance.new("UICorner")
+            KnobCorner.CornerRadius = UDim.new(1, 0)
+            KnobCorner.Parent = Knob
+
+            local KnobStroke = Instance.new("UIStroke")
+            KnobStroke.Color = Color3.fromRGB(0, 0, 0)
+            KnobStroke.Transparency = 0.7
+            KnobStroke.Thickness = 1
+            KnobStroke.Parent = Knob
+
+            local dragging = false
+            local currentValue = defaultVal
+
+            local function updateFromInput(inputPos)
+                local trackAbsPos = Track.AbsolutePosition.X
+                local trackAbsSize = Track.AbsoluteSize.X
+                local relative = math.clamp((inputPos - trackAbsPos) / trackAbsSize, 0, 1)
+                local value = math.floor(minVal + (relative * (maxVal - minVal)))
+
+                currentValue = value
+                Library.Flags[flagName] = value
+
+                Fill.Size = UDim2.new(relative, 0, 1, 0)
+                Knob.Position = UDim2.new(relative, 0, 0.5, 0)
+                ValueLabel.Text = tostring(value)
+
+                callback(value)
+            end
+
+            HitArea.InputBegan:Connect(function(input)
+                if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+                    dragging = true
+                    TweenService:Create(Knob, TweenInfo.new(0.12), { Size = UDim2.new(0, 20, 0, 20) }):Play()
+                    updateFromInput(input.Position.X)
+                end
+            end)
+
+            UserInputService.InputChanged:Connect(function(input)
+                if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+                    updateFromInput(input.Position.X)
+                end
+            end)
+
+            UserInputService.InputEnded:Connect(function(input)
+                if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+                    if dragging then
+                        TweenService:Create(Knob, TweenInfo.new(0.12), { Size = UDim2.new(0, 16, 0, 16) }):Play()
+                    end
+                    dragging = false
+                end
+            end)
+
+            return {
+                Set = function(_, value)
+                    local relative = math.clamp((value - minVal) / (maxVal - minVal), 0, 1)
+                    updateFromInput(Track.AbsolutePosition.X + (relative * Track.AbsoluteSize.X))
+                end,
+                Get = function(_)
+                    return currentValue
+                end
+            }
+                end
         function Tab:CreateButton(buttonConfig)
             buttonConfig = buttonConfig or {}
             local nameInput = buttonConfig.Name or {EN = "Button", AR = "زر"}
