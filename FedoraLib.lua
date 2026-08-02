@@ -396,10 +396,15 @@ function Library:CreateWindow(config)
             return nil
         end
 
-        local view = Instance.new("Frame")
+        local view = Instance.new("ScrollingFrame")
         view.Size = UDim2.new(1, 0, 1, 0)
         view.BackgroundTransparency = 1
         view.Visible = (index == 1)
+        view.BorderSizePixel = 0
+        view.ScrollBarThickness = 3
+        view.ScrollBarImageColor3 = Color3.fromRGB(255, 255, 255)
+        view.CanvasSize = UDim2.new(0, 0, 0, 0)
+        view.AutomaticCanvasSize = Enum.AutomaticSize.None
         view.Parent = ContentContainer
         table.insert(tabViews, view)
 
@@ -446,6 +451,17 @@ function Library:CreateWindow(config)
         Tab.View = view
         Tab.Elements = {}
 
+        local function updateCanvas()
+            local totalHeight = 0
+            for i, e in ipairs(Tab.Elements) do
+                totalHeight = totalHeight + e.height
+                if i < #Tab.Elements then
+                    totalHeight = totalHeight + GAP
+                end
+            end
+            view.CanvasSize = UDim2.new(0, 0, 0, totalHeight)
+        end
+
         local function addElement(frame, height)
             local y = 0
             for _, e in ipairs(Tab.Elements) do
@@ -454,6 +470,7 @@ function Library:CreateWindow(config)
             frame.Position = UDim2.new(0, 0, 0, y)
             local entry = { frame = frame, height = height }
             table.insert(Tab.Elements, entry)
+            updateCanvas()
             return entry
         end
 
@@ -481,6 +498,8 @@ function Library:CreateWindow(config)
                 }):Play()
                 y = y + e.height + GAP
             end
+
+            updateCanvas()
         end
 
         function Tab:CreateToggle(toggleConfig)
@@ -530,7 +549,7 @@ function Library:CreateWindow(config)
                 ToggleLabel.Text = labelSource()
                 ToggleLabel.TextSize = fontSizeFor(12)
             end)
-
+                        
             local SwitchTrack = Instance.new("TextButton")
             SwitchTrack.Size = UDim2.new(0, 40, 0, 20)
             SwitchTrack.Position = UDim2.new(1, -50, 0.5, -10)
