@@ -1,7 +1,7 @@
 
 To load the library directly into your script:
 ```lua
-local FedoraLibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/gapiwapiw/Fedora-library-/refs/heads/main/FedoraLibrary.lua"))()
+local FedoraLibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/gapiwapiw/Fedora-library-/refs/heads/main/FedoraLib.lua"))()
 
 local Window = FedoraLibrary.CreateWindow("Fedora Hub")
 
