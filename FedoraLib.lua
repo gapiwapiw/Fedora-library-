@@ -1,4 +1,4 @@
-local Players = game:GetService("Players")
+slocal Players = game:GetService("Players")
 local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
 local LocalPlayer = Players.LocalPlayer
@@ -1114,6 +1114,42 @@ function Tab:CreateTextbox(textboxConfig)
                 end,
                 Get = function(_)
                     return InputBox.Text
+                end
+            }
+        end
+
+        function Tab:CreateText(textConfig)
+            textConfig = textConfig or {}
+            local textInput = textConfig.Text or {EN = "Text", AR = "نص"}
+            local alignment = textConfig.Alignment or "Left"
+            local bold = textConfig.Bold or false
+            local size = textConfig.Size or 13
+            local height = textConfig.Height or 24
+            local colorInput = textConfig.Color or Color3.fromRGB(220, 220, 220)
+
+            local alignMap = {
+                Left = Enum.TextXAlignment.Left,
+                Center = Enum.TextXAlignment.Center,
+                Right = Enum.TextXAlignment.Right
+            }
+
+            local Txt = Instance.new("TextLabel")
+            Txt.Size = UDim2.new(1, 0, 0, height)
+            Txt.BackgroundTransparency = 1
+            Txt.TextColor3 = colorInput
+            Txt.Font = bold and Enum.Font.GothamBold or Enum.Font.GothamMedium
+            Txt.TextWrapped = true
+            Txt.TextXAlignment = alignMap[alignment] or Enum.TextXAlignment.Left
+            Txt.TextYAlignment = Enum.TextYAlignment.Top
+            Txt.Parent = view
+            registerText(Txt, "Text", textInput, size)
+
+            addElement(Txt, height)
+
+            return {
+                SetText = function(_, newInput)
+                    textInput = newInput
+                    Txt.Text = resolveText(newInput)
                 end
             }
         end
