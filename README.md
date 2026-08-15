@@ -20,6 +20,7 @@ local Window = Library:CreateWindow({
 - Popups (`ShowPopup`) now auto-size to fit their text instead of clipping or overflowing long messages, with a sensible min/max height.
 - Notifications (`SendNotification`) now take a **title/label** in addition to the body text, instead of a single line of text.
 - Added `CreateTextbox` — a labeled input field for tabs (see below).
+- Added `CreateText` — customizable freeform text for tabs (see below).
 
 ## Known Issues
 
@@ -148,6 +149,31 @@ MainTab:CreateTextbox({
 - `Default` *(string, optional)* — Initial value.
 - `Flag` *(string, optional)* — Key used to store the value in `Library.Flags`.
 - `Callback` *(function)* — Called with the current text and whether Enter was pressed, whenever the field loses focus.
+
+### Text
+
+Freeform, customizable text for a tab — useful for descriptions, section notes, or any content that doesn't fit `CreateLabel`'s fixed centered style.
+
+```lua
+MainTab:CreateText({
+    Text = {EN = "This is customizable text.", AR = "هذا نص قابل للتخصيص."},
+    Alignment = "Left",
+    Bold = false,
+    Size = 13,
+    Height = 24,
+    Color = Color3.fromRGB(220, 220, 220)
+})
+```
+
+**Parameters (table):**
+- `Text` *(string or table)* — The text to display.
+- `Alignment` *(string, optional)* — `"Left"`, `"Center"`, or `"Right"`. Defaults to `"Left"`.
+- `Bold` *(boolean, optional)* — Use bold font weight. Defaults to `false`.
+- `Size` *(number, optional)* — Font size. Defaults to `13`.
+- `Height` *(number, optional)* — Element height in pixels; increase for longer wrapped text. Defaults to `24`.
+- `Color` *(Color3, optional)* — Text color. Defaults to a light gray.
+
+Returns a handle with `SetText(newInput)` to update the text afterward.
 
 ### Labels
 
