@@ -11,12 +11,19 @@ local Window = Library:CreateWindow({
 
 ## What's Changed
 
-- Tabs now support up to **10 tabs**. The first **5** stay at a fixed, comfortable width; adding a 6th tab or beyond triggers horizontal scrolling on the tab bar instead of shrinking tabs further.
+- Tabs now support up to **10 tabs**, and all 10 correctly render and are reachable via scroll (previously, tabs beyond the 6th failed to display properly due to a positioning bug).
+- The first **5** tabs stay at a fixed, comfortable width; adding a 6th tab or beyond triggers horizontal scrolling on the tab bar instead of shrinking tabs further.
+- Fixed the active tab's highlight overlapping the tab bar's own rounded border/corners.
 - Removed scrollbar pills everywhere — tab content, dropdown lists, and the tab bar itself all scroll with no visible scrollbar track.
 - Removed overscroll bounce-back ("elastic" behavior) on every scrollable element (tab content, dropdowns, tab bar). Scrolling now stops dead at the start/end instead of rubber-banding.
 - Dropdowns auto-scroll to reveal the currently selected option when opened, and no longer leave empty dead space below a short options list.
 - Popups (`ShowPopup`) now auto-size to fit their text instead of clipping or overflowing long messages, with a sensible min/max height.
 - Notifications (`SendNotification`) now take a **title/label** in addition to the body text, instead of a single line of text.
+- Added `CreateTextbox` — a labeled input field for tabs (see below).
+
+## Known Issues
+
+- Container outlines (buttons, textboxes, toggles, etc.) can appear clipped or unevenly inset near the edges of the main window in some cases. Under investigation.
 
 ## Popups
 
@@ -121,6 +128,26 @@ MainTab:CreateDropdown({
 - `DefaultText` *(string or table, optional)* — Placeholder shown when nothing is selected.
 - `SelectPrefix` *(string or table, optional)* — Prefix shown before the selected value.
 - `Callback` *(function)* — Called with the selected option whenever it changes.
+
+### Textboxes
+
+```lua
+MainTab:CreateTextbox({
+    Name = {EN = "Username", AR = "اسم المستخدم"},
+    Placeholder = {EN = "Enter name...", AR = "أدخل الاسم..."},
+    Default = "",
+    Callback = function(text, enterPressed)
+        print("Value:", text)
+    end
+})
+```
+
+**Parameters (table):**
+- `Name` *(string or table)* — Field label.
+- `Placeholder` *(string or table, optional)* — Placeholder text shown when empty.
+- `Default` *(string, optional)* — Initial value.
+- `Flag` *(string, optional)* — Key used to store the value in `Library.Flags`.
+- `Callback` *(function)* — Called with the current text and whether Enter was pressed, whenever the field loses focus.
 
 ### Labels
 
